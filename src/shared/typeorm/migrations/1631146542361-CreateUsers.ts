@@ -1,15 +1,10 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateProducts1629160727456 implements MigrationInterface {
+export class CreateUsers1631146542361 implements MigrationInterface {
 
-    // este método será executado quando for criar uma tabela
-    // o retorno do método é uma Promise (promessa de um retorno)
     public async up(queryRunner: QueryRunner): Promise<void> {
-        // vamos criar tabela no banco de dados
-        // envia o pedido e não faço nada enquanto não obtiver resposta
-
         await queryRunner.createTable(new Table({
-            name: 'products',
+            name: 'users',
             columns: [
                 {
                     name: 'id',
@@ -23,21 +18,28 @@ export class CreateProducts1629160727456 implements MigrationInterface {
                     type: 'varchar'
                 },
                 {
-                    name: 'price',
-                    type: 'decimal',
-                    scale: 2
+                    name: 'email',
+                    type: 'varchar',
+                    isUnique: true
                 },
                 {
-                    name: 'quantity',
-                    type: 'int'
+                    name: 'password',
+                    type: 'varchar'
+                },
+                {
+                    name: 'avatar',
+                    type: 'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'created_at',
-                    type: 'timestamp with time zone'
+                    type: 'timestamp with time zone',
+                    default: 'now()'
                 },
                 {
                     name: 'updated_at',
-                    type: 'timestamp with time zone'
+                    type: 'timestamp with time zone',
+                    default: 'now()'
                 }
             ]
         })) 
@@ -45,8 +47,9 @@ export class CreateProducts1629160727456 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-
-        await queryRunner.dropTable('products')
+          // remove a tabela
+        // chamamos um método síncrono
+        await queryRunner.dropTable('users')
     }
 
 }
